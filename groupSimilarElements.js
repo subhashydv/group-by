@@ -1,5 +1,4 @@
 const areArraysEqual = function (array1, array2) {
-  // console.log(array1, array2);
   if (array1.length !== array2.length) {
     return false;
   }
@@ -9,15 +8,25 @@ const areArraysEqual = function (array1, array2) {
     }
   }
   return true;
-}
+};
+
+const isArray = function (content) {
+  return content[0] !== undefined;
+};
+
+const isEqual = function (content1, content2) {
+  if (content1 === content2) {
+    return true;
+  }
+  if (isArray(content1) && isArray(content2)) {
+    return areArraysEqual(content1, content2);
+  }
+  return false;
+};
 
 const positionOf = function (element, groups) {
   for (let index = 0; index < groups.length; index++) {
-    if (typeof (element) === 'object') {
-      if (areArraysEqual(element, groups[index][0])) {
-        return index;
-      }
-    } else if (groups[index][0] === element) {
+    if (isEqual(element, groups[index][0])) {
       return index;
     }
   }
@@ -43,7 +52,9 @@ const identicalGroupOf = function (elements) {
 // console.log(identicalGroupOf([1, 2, 3]));
 // console.log(identicalGroupOf([1, 2, 1]));
 // console.log(identicalGroupOf([1, 2, 1, 2, 3]));
-// console.log(identicalGroupOf(['a', 'b', 'a']));
 
 console.log(identicalGroupOf([[1, 1], 1, [1, 1]]));
-console.log(identicalGroupOf([[1, 1], 1, [1, 1], 1]));
+console.log(identicalGroupOf([1, [1, 1], 1, [1, 1]]));
+console.log(identicalGroupOf([1, [1, 1], 1, [1, 1], 1]));
+console.log(identicalGroupOf([1, [1, 1], 1, [2, 1], 1]));
+console.log(identicalGroupOf([1, [1], 1, [2, 1], 1]));
