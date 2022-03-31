@@ -1,4 +1,4 @@
-const findSimilarElement = function (groups, element) {
+const positionOf = function (element, groups) {
   for (let index = 0; index < groups.length; index++) {
     const position = groups[index].indexOf(element);
     if (position !== -1) {
@@ -9,17 +9,17 @@ const findSimilarElement = function (groups, element) {
 };
 
 const identicalGroupOf = function (elements) {
-  const groupedElements = [];
+  const groups = [];
   for (let index = 0; index < elements.length; index++) {
     const element = elements[index];
-    let position = findSimilarElement(groupedElements, element);
+    let position = positionOf(element, groups);
     if (position === -1) {
-      groupedElements.push([]);
-      position = groupedElements.length - 1;
+      groups.push([]);
+      position = groups.length - 1;
     }
-    groupedElements[position].push(element);
+    groups[position].push(element);
   }
-  return groupedElements;
+  return groups;
 };
 
 console.log(identicalGroupOf([1]));
