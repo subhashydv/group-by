@@ -12,12 +12,12 @@ const identicalGroupOf = function (elements) {
   const groupedElements = [];
   for (let index = 0; index < elements.length; index++) {
     const element = elements[index];
-    const position = findSimilarElement(groupedElements, element);
+    let position = findSimilarElement(groupedElements, element);
     if (position === -1) {
-      groupedElements.push([element]);
-    } else {
-      groupedElements[position].push(element);
+      groupedElements.push([]);
+      position = groupedElements.length - 1;
     }
+    groupedElements[position].push(element);
   }
   return groupedElements;
 };
@@ -27,3 +27,4 @@ console.log(identicalGroupOf([1, 2]));
 console.log(identicalGroupOf([1, 2, 3]));
 console.log(identicalGroupOf([1, 2, 1]));
 console.log(identicalGroupOf([1, 2, 1, 2, 3]));
+console.log(identicalGroupOf(['a', 'b', 'a']));
