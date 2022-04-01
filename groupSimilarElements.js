@@ -34,24 +34,24 @@ const positionOf = function (element, groups) {
 };
 
 const identicalGroupOf = function (elements) {
-  const groups = [];
-  for (let index = 0; index < elements.length; index++) {
-    const element = elements[index];
-    let position = positionOf(element, groups);
-    if (position === -1) {
-      groups.push([]);
-      position = groups.length - 1;
-    }
-    groups[position].push(element);
+  if (elements.length === 0) {
+    return [];
   }
+  const groups = identicalGroupOf(elements.slice(1));
+  let position = positionOf(elements[0], groups);
+  if (position === -1) {
+    groups.push([]);
+    position = groups.length - 1;
+  }
+  groups[position].push(elements[0]);
   return groups;
 };
 
-// console.log(identicalGroupOf([1]));
-// console.log(identicalGroupOf([1, 2]));
-// console.log(identicalGroupOf([1, 2, 3]));
-// console.log(identicalGroupOf([1, 2, 1]));
-// console.log(identicalGroupOf([1, 2, 1, 2, 3]));
+console.log(identicalGroupOf([1]));
+console.log(identicalGroupOf([1, 2]));
+console.log(identicalGroupOf([1, 2, 3]));
+console.log(identicalGroupOf([1, 2, 1]));
+console.log(identicalGroupOf([1, 2, 1, 2, 3]));
 
 console.log(identicalGroupOf([[1, 1], 1, [1, 1]]));
 console.log(identicalGroupOf([1, [1, 1], 1, [1, 1]]));
