@@ -11,7 +11,17 @@ const areArraysEqual = function (array1, array2) {
 };
 
 const isArray = function (content) {
-  return content[0] !== undefined;
+  if (content === content + 0) {
+    return false;
+  }
+  if (content === content + '') {
+    return false;
+  }
+  if (content.length >= 0) {
+    return true;
+  }
+  return false;
+  // return content[0] !== undefined;
 };
 
 const isEqual = function (content1, content2) {
@@ -30,7 +40,8 @@ const positionOf = function (element, groups) {
       return index;
     }
   }
-  return -1;
+  groups.push([]);
+  return groups.length - 1;
 };
 
 const identicalGroupOf = function (elements) {
@@ -38,11 +49,7 @@ const identicalGroupOf = function (elements) {
     return [];
   }
   const groups = identicalGroupOf(elements.slice(1));
-  let position = positionOf(elements[0], groups);
-  if (position === -1) {
-    groups.push([]);
-    position = groups.length - 1;
-  }
+  const position = positionOf(elements[0], groups);
   groups[position].push(elements[0]);
   return groups;
 };
