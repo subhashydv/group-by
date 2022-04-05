@@ -1,15 +1,5 @@
 const isArray = function (content) {
-  if (content === content + 0) {
-    return false;
-  }
-  if (content === content + '') {
-    return false;
-  }
-  if (content.length >= 0) {
-    return true;
-  }
-  return false;
-  // return content[0] !== undefined;
+  return Array.isArray(content);
 };
 
 const isEqual = function (content1, content2) {
@@ -40,8 +30,18 @@ const positionOf = function (element, groups) {
       return index;
     }
   }
-  groups.push([]);
-  return groups.length - 1;
+  return -1;
+};
+
+const group = function (element, groups) {
+  let position = positionOf(element, groups);
+  if (position === -1) {
+    groups.push([]);
+    position = groups.length - 1;
+  }
+  // position += position === -1 ? groups.push([]) : 0;
+  groups[position].push(element);
+  return groups;
 };
 
 const identicalGroupOf = function (elements) {
@@ -49,20 +49,18 @@ const identicalGroupOf = function (elements) {
     return [];
   }
   const groups = identicalGroupOf(elements.slice(1));
-  const position = positionOf(elements[0], groups);
-  groups[position].push(elements[0]);
-  return groups;
+  return group(elements[0], groups);
 };
 
-console.log(identicalGroupOf([1]));
-console.log(identicalGroupOf([1, 2]));
-console.log(identicalGroupOf([1, 2, 3]));
-console.log(identicalGroupOf([1, 2, 1]));
-console.log(identicalGroupOf([1, 2, 1, 2, 3]));
+console.log(identicalGroupOf([1])); // [ [ 1 ] ]
+console.log(identicalGroupOf([1, 2])); // [ [ 2 ], [ 1 ] ]
+console.log(identicalGroupOf([1, 2, 3])); // [ [ 3 ], [ 2 ], [ 1 ] ]
+console.log(identicalGroupOf([1, 2, 1])); // [ [ 1, 1 ], [ 2 ] ]
+console.log(identicalGroupOf([1, 2, 1, 2, 3])); // [ [ 3 ], [ 2, 2 ], [ 1, 1 ] ]
 
-console.log(identicalGroupOf([[1, 1], 1, [1, 1]]));
-console.log(identicalGroupOf([1, [1, 1], 1, [1, 1]]));
-console.log(identicalGroupOf([1, [1, 1], 1, [1, 1], 1]));
-console.log(identicalGroupOf([1, [1, 1], 1, [2, 1], 1]));
-console.log(identicalGroupOf([1, [1], 1, [2, 1], 1]));
-console.log(identicalGroupOf([[[1], [2]], [[1], [2]]]));
+console.log(identicalGroupOf([[1, 1], 1, [1, 1]])); // [ [ [ 1, 1 ], [ 1, 1 ] ], [ 1 ] ]
+console.log(identicalGroupOf([1, [1, 1], 1, [1, 1]])); // [ [ [ 1, 1 ], [ 1, 1 ] ], [ 1, 1 ] ]
+console.log(identicalGroupOf([1, [1, 1], 1, [1, 1], 1])); // [ [ 1, 1, 1 ], [ [ 1, 1 ], [ 1, 1 ] ] ]
+console.log(identicalGroupOf([1, [1, 1], 1, [2, 1], 1])); // [ [ 1, 1, 1 ], [ [ 2, 1 ] ], [ [ 1, 1 ] ] ]
+console.log(identicalGroupOf([1, [1], 1, [2, 1], 1])); // [ [ 1, 1, 1 ], [ [ 2, 1 ] ], [ [ 1 ] ] ]
+console.log(identicalGroupOf([[[1], [2]], [[1], [2]]])); // [ [ [ [ 1 ], [ 2 ] ],[ [ 1 ], [ 2 ] ] ] ]
