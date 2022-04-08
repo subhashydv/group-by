@@ -25,8 +25,6 @@ const isEqual = function (lhs, rhs) {
   return true;
 };
 
-exports.isEqual = isEqual;
-
 console.log(isEqual([1], [1]));
 console.log(isEqual([], []));
 console.log(isEqual([1, 2], [1, 2]));

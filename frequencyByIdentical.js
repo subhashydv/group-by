@@ -44,12 +44,24 @@ const addFrequency = function (element, groups) {
 };
 
 const frequencyOfIdentical = function (elements) {
-  if (elements.length === 0) {
-    return [];
+  // if (elements.length === 0) {
+  //   return [];
+  // }
+  // const groups = frequencyOfIdentical(elements.slice(1));
+  // return addFrequency(elements[0], groups);
+
+  const groupedElements = [];
+  for (let index = 0; index < elements.length; index++) {
+    let position = positionOf(elements[index], groupedElements);
+    if (position === -1) {
+      groupedElements.push([elements[index], 0]);
+      position = groupedElements.length - 1;
+    }
+    groupedElements[position][1]++;
   }
-  const groups = frequencyOfIdentical(elements.slice(1));
-  return addFrequency(elements[0], groups);
+  return groupedElements;
 };
+
 
 console.log(frequencyOfIdentical([1]));
 console.log(frequencyOfIdentical([1, 2]));
